@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>בועה</title>
+  <script type="module">
+    import { db } from './firebase.js';
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+    async function loadBubble() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      if (!id) return document.body.innerHTML = "לא נמסר מזהה בועה.";
+
+      const docRef = doc(db, "bubbles", id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        document.getElementById("bubbleName").textContent = docSnap.data().name;
+      } else {
+        document.body.innerHTML = "הבועה לא נמצאה.";
+      }
+    }
+
+    window.onload = loadBubble;
+  </script>
+</head>
+<body>
+  <h2 id="bubbleName">טוען...</h2>
+</body>
+</html>

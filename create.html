@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <title>צור בועה</title>
+  <script type="module">
+    import { db } from './firebase.js';
+    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+    async function createBubble() {
+      const name = document.getElementById('bubbleName').value;
+      const docRef = await addDoc(collection(db, "bubbles"), {
+        name: name,
+        createdAt: new Date()
+      });
+      window.location.href = `bubble.html?id=${docRef.id}`;
+    }
+  </script>
+</head>
+<body>
+  <h2>צור בועה חדשה</h2>
+  <input id="bubbleName" placeholder="שם הבועה">
+  <button onclick="createBubble()">צור</button>
+</body>
+</html>
